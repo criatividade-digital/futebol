@@ -1,2 +1,1 @@
-# projeto-lego-spike-prime
-Template para publicação de projetos LEGO Education SPIKE Prime
+Seja muito bem-vindo ao meu projeto!!! :)
