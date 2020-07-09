@@ -38,8 +38,10 @@
             </div>
         </div>
     </header> //header-->
-    
+		
     <section class="hero-section">
+			<a style="position: absolute; right:0px; z-index: 100;" target="_blank" href="https://github.com/{{page.usuario}}/{{page.repositorio}}"><img width="149" height="149" src="assets/images/forkme_right_orange_ff7600.png" alt="Fork me on GitHub"></a>
+
 	    <div class="container">
 		    <div class="row">
 			    <div class="col-12 col-md-7 pt-5 mb-5 align-self-center">
@@ -62,13 +64,17 @@
 							    <div class="carousel-inner">
 								    <div class="carousel-item active">
 								        <blockquote class="quote p-4 theme-bg-light">
-									        "Podem explorar a vontade! Ajustar, acrescentar, usar como ideia para montar outra coisa, trocar motor, sensor, ..." <spam style='font-style: normal;'>🙂🙂🙂🙂</spam>  
+									        {{page.autor-mensagem}}  
 								        </blockquote><!--//item--> 
 								        <div class="source media flex-column flex-md-row align-items-center">
-									        <img class="source-profile rounded-circle mr-md-3" src="https://github.com/criatividade-digital.png" alt="image" >
+									        <img class="source-profile rounded-circle mr-md-3" src="{{page.autor-imagem}}" alt="image" >
 									        <div class="source-info media-body text-center text-md-left">
-										        <div class="source-name"><a target="_blank" href="https://spibr.criatividade.digital/participantes/josecarlosjunior.html">José Carlos Junior</a></div>
-										        <div class="soure-title">Professor de Tecnologia da Educação<br>Colégio Visconde de Porto Seguro</div>
+														{% if page.autor-link %}
+															<div class="source-name"><a target="_blank" href="{{page.autor-link}}">{{page.autor}}</a></div>
+														{% else %}
+														<div class="source-name">{{page.autor}}</div>
+														{% endif %}
+										        <div class="soure-title">{{page.autor-atividade}}<br>{{page.autor-escola}}</div>
 										    </div>
 								        </div><!--//source-->
 								    </div><!--//carousel-item-->
@@ -80,7 +86,7 @@
 			    </div><!--col-->
 			    <div class="col-12 col-md-5 mb-5 align-self-center">
 				    <div class="book-cover-holder">
-					    <img class="img-fluid book-cover" src="/teste-projeto/Futebol.png" alt="book cover" >
+					    <img class="img-fluid book-cover" src="https://raw.githubusercontent.com/{{page.usuario}}/{{page.repositorio}}/master/{{page.arquivo}}.png" alt="imagem representando o projeto" >
 				    </div><!--//book-cover-holder-->
 			    </div><!--col-->
 		    </div><!--//row-->
@@ -89,10 +95,26 @@
     
     <section id="benefits-section" class="benefits-section theme-bg-light-gradient py-5">
 	    <div class="container py-5">
-		    <h2 class="section-heading text-center mb-3">Veja como funciona</h2>
-				<div class="section-intro single-col-max mx-auto text-center mb-5">Fiz a construção onde o Jogador azul e o Jogador vermelho disputam uma partida de pênaltis e ganha aquele que fizer 3 gols!! </div>
+		    <h2 class="section-heading text-center mb-3">Como funciona</h2>
+				<div class="section-intro single-col-max mx-auto text-center mb-5"></div>
 				<center>
-					<iframe src="https://www.instagram.com/p/CBtZQGIF8k9/embed" width="508" height="330" frameborder="0" scrolling="no" allowtransparency="true"></iframe>
+					{% if page.video-largura %}
+						{% assign width = page.video-largura %}
+						{% assign height = page.video-altura %}
+					{% else %}
+						{% assign width = "560" %}
+						{% assign height = "315" %}
+					{% endif %}
+
+					{% case page.video %}
+					{% when 'youtube' %}
+						<iframe width="{{width}}" height="{{height}}" src="https://www.youtube.com/embed/{{page.video-id}}" frameborder="0"
+						allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+					{% when 'facebook' %}
+						<div class="fb-video" data-href="{{page.video-link}}" data-show-text="false" data-width="">
+					{% when 'instagram' %}
+					  <iframe src="{{page.video-link}}" width="{{width}}"" height="{{height}}" frameborder="0" scrolling="no" allowtransparency="true"></iframe>
+					{% endcase %}
 				</center>
 	    </div><!--//container-->
     </section><!--//benefits-section-->
@@ -101,7 +123,7 @@
 	    <div class="container">
 		    <div class="single-col-max mx-auto">
 				<h2 class="section-heading text-center mb-5">Montagem</h2>
-				<iframe src="https://docs.google.com/gview?url=https://spibr.criatividade.digital/teste-projeto/Futebol.pdf&embedded=true" 
+				<iframe src="https://docs.google.com/gview?url=https://raw.githubusercontent.com/{{page.usuario}}/{{page.repositorio}}/master/{{page.arquivo}}.pdf&embedded=true" 
 style="width:90%; height:500px;" frameborder="0"></iframe>
 		    </div><!--//single-col-max-->
 	    </div><!--//container-->
@@ -112,19 +134,30 @@ style="width:90%; height:500px;" frameborder="0"></iframe>
 				<h2 class="section-heading text-center mb-4">Programação</h2>
 				<img src="" alt="asd" id="temp" />
 				<script type="text/javascript">
-					var loader = new ZipLoader('Futebol.llsp');
+					var loader = new ZipLoader('https://raw.githubusercontent.com/{{page.usuario}}/{{page.repositorio}}/master/Futebol.llsp');
 					(function($) {
 							$(document).ready(function() {
-									$("#temp").attr('src', loader.loadImage('Futebol.llsp://icon.svg'));
+									$("#temp").attr('src', loader.loadImage('https://raw.githubusercontent.com/{{page.usuario}}/{{page.repositorio}}/master/Futebol.llsp://icon.svg'));
 							});
 					})(jQuery)
 			</script>
-							<button type="submit" onclick="window.open('Futebol.llsp');"class="btn btn-primary btn-submit mb-3 mb-md-0"><i class="fas fa-file-download"></i>&nbsp;&nbsp;&nbsp;Baixar</button>
+			<center>
+				<br>
+				<button type="submit" onclick="window.open('https://raw.githubusercontent.com/{{page.usuario}}/{{page.repositorio}}/master/Futebol.llsp');"class="btn btn-primary btn-submit mb-3 mb-md-0"><i class="fas fa-file-download"></i>&nbsp;&nbsp;&nbsp;Baixar programa</button>
+			</center>
 
 	    </div><!--//container-->
     </section><!--//audience-section-->
     
-    
+
+		<section id="content-section" class="content-section">
+	    <div class="container">
+		    <div class="single-col-max mx-auto">
+					{{content}}
+		    </div><!--//single-col-max-->
+	    </div><!--//container-->
+    </section><!--//content-section-->
+
     
   
 
@@ -133,7 +166,7 @@ style="width:90%; height:500px;" frameborder="0"></iframe>
 	    <div class="footer-bottom text-center py-5">
 
 	        <!--/* This template is free as long as you keep the footer attribution link. If you'd like to use the template without the attribution link, you can buy the commercial license via our website: themes.3rdwavemedia.com Thank you for your support. :) */-->
-            <small class="copyright">Designed with <i class="fas fa-heart" style="color: #fb866a;"></i> by <a class="theme-link" href="http://themes.3rdwavemedia.com" target="_blank">Xiaoying Riley</a> for developers</small>
+            <small class="copyright">Designed with <i class="fas fa-heart" style="color: #fb866a;"></i> by <a class="theme-link" href="http://themes.3rdwavemedia.com" target="_blank">Xiaoying Riley</a>. Jekyll template by <a class="theme-link" href="http://criatividade.digital" target="_blank">CRIATIVIDADE.digital</a>.</small>
  
 	    </div>
 	    
